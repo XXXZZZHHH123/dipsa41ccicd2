@@ -37,3 +37,39 @@ jobs:
         run: railway up
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      - name: Send custom JSON data to Slack workflow
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+              {
+                "blocks": [
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "DipSA41C CI/CD Assignment Submission"
+                    }
+                  },
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "*Name:*\nXu Zihang\n\n*Matriculation:*\nA0276820B\n\n*Email:*\nE1133135@u.nus.edu\n\n*Repository:*\nhttps://github.com/XXXZZZHHH123/dipsa41ccicd\n"
+                    }
+                  },
+                  {
+                    "type": "section",
+                    "block_id": "section789",
+                    "fields": [
+                      {
+                        "type": "mrkdwn",
+                        "text": "*Deployment:*\n<https://dipsa41cicd-production-314f.up.railway.app/> \n<https://dipsa41cicd-production-314f.up.railway.app/|Open application>"
+                      }
+                    ]
+                  }
+                ]
+              }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
